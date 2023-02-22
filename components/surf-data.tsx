@@ -2,6 +2,7 @@ import React from 'react'
 import useSWR from 'swr'
 import Image from 'next/image'
 import pika from '/assets/pika.png'
+import cool from '/assets/cool.png'
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
@@ -41,6 +42,17 @@ export default function SurfData() {
       {ssData && <SurfStuff subRegionName={'pops'} data={ssData}/>}
       {nsData && <SurfStuff subRegionName={'puaʻena'} data={nsData}/>}
       {wsData && <SurfStuff subRegionName={'pokaʻi'} data={wsData}/>}
+      <div className={"p-8"}>
+      <Image
+        src={cool}
+        alt="box jelly"
+        width={50}
+        height={50}
+        style={{
+          margin: "auto",
+        }}
+      />
+      </div>
     </div>
   )
 }
