@@ -1,26 +1,11 @@
-import React, {
-  useEffect
- } from 'react'
+import React from 'react'
 import useSWR from 'swr'
-import type { NextApiRequest, NextApiResponse } from 'next';
+import Image from 'next/image'
+import pika from '/assets/pika.png'
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
 export default function SurfData() {
-  // put fetch call on front end
-
-  const [surflineData, setSurflineData] = React.useState<any>(null)
-
-  useEffect(() => {
-    const response = fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcb&days=2')
-    .then((res) => res.json())
-    .then((data) => {
-      setSurflineData(data)
-    })
-  },[])
-
-  console.log({surflineData})
-
   const {
     data: ssData,
     error: ssError,
@@ -40,38 +25,36 @@ export default function SurfData() {
    } = useSWR('api/west-side', fetcher)
 
   return (
-    <>
-      surfbot
-      {ssData && <SurfStuff subRegionName={'south shore'} data={ssData}/>}
-      {/* {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>} */}
-      {surflineData && <SurfStuff subRegionName={'new'} data={surflineData}/>}
-      {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>}
-    </>
-  )
-}
-
-
-function SurfStuff({subRegionName, data}: any) {
-  return (
-    <div>
-      <div>
-        {subRegionName}
-        <div>
-          {data.data.conditions[0].am.minHeight}
-          -
-          {data.data.conditions[0].am.maxHeight}
-        </div>
+    <div className={"pt-8 flex flex-col text-center"}>
+      <div className={"text-4xl font-semibold"}>surfbot</div>
+      <div className={"p-8"}>
+      <Image
+        src={pika}
+        alt="surfing pikachu"
+        width={50}
+        height={50}
+        style={{
+          margin: "auto",
+        }}
+      />
       </div>
+      {ssData && <SurfStuff subRegionName={'pops'} data={ssData}/>}
+      {nsData && <SurfStuff subRegionName={'puaʻena'} data={nsData}/>}
+      {wsData && <SurfStuff subRegionName={'pokaʻi'} data={wsData}/>}
     </div>
   )
 }
 
-// export async function getServerSideProps({_req, res} : {_req: NextApiRequest, res: NextApiResponse}) {
-
-//   const response = await fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcb&days=2');
-
-//   const json = await response.json();
-//   // res.status(200).json(json);
-
-//   return { props: {json}}
-// }
+function SurfStuff({subRegionName, data}: any) {
+  return (
+    <div className={"p-4"}>
+      <div className={"text-4xl p-2"}>
+        {data.data.conditions[0].am.minHeight}
+        -
+        {data.data.conditions[0].am.maxHeight}
+        {` ft`}
+      </div>
+      <div className={""}>at {subRegionName}</div>
+    </div>
+  )
+}
