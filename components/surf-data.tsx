@@ -26,7 +26,7 @@ export default function SurfData() {
 
   return (
     <div className={"pt-8 flex flex-col text-center"}>
-      <div className={"text-4xl font-semibold"}>surfbot</div>
+      {/* <div className={"text-4xl font-semibold"}>surfbot</div> */}
       <div className={"p-8"}>
       <Image
         src={pika}
