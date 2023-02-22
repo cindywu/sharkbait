@@ -9,9 +9,9 @@ export default async function handler (_req: NextApiRequest, res: NextApiRespons
       'Content-Type': 'application/json',
     },
   });
-  console.log('response', response)
 
-  const json = await response.json();
+  const json = await response.text();
+  console.log({json})
   res.status(200).json(json);
 
   } catch(error) {

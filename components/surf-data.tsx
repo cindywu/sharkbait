@@ -8,8 +8,6 @@ const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
 export default function SurfData() {
 
-
-
   const {
     data: ssData,
     error: ssError,
@@ -32,7 +30,7 @@ export default function SurfData() {
     <>
       surfbot
       {ssData && <SurfStuff subRegionName={'south shore'} data={ssData}/>}
-      {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>}
+      {/* {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>} */}
       {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>}
     </>
   )
