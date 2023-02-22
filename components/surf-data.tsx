@@ -1,29 +1,30 @@
 import React from 'react'
 import useSWR from 'swr'
 
+const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
+
 export default function SurfData() {
-  const ssFetcher = () => fetch('/api/south-shore').then((res) => res.json())
-  const nsFetcher = () => fetch('/api/north-shore').then((res) => res.json())
-  const wsFetcher = () => fetch('/api/west-side').then((res) => res.json())
 
   const {
     data: ssData,
     error: ssError,
     isLoading: ssIsLoading,
-  } = useSWR('/api/south-shore', ssFetcher)
+  } = useSWR('/api/south-shore', fetcher)
 
   const {
     data: nsData,
     error: nsError,
     isLoading: nsIsLoading,
-   } = useSWR('/api/north-shore', nsFetcher)
+   } = useSWR('/api/north-shore', fetcher)
 
    const {
     data: wsData,
     error: wsError,
     isLoading: wsIsLoading
-   } = useSWR('api/west-side', wsFetcher)
+   } = useSWR('api/west-side', fetcher)
 
+  if (ssError || nsError || wsError) return <div>An error has occurred.</div>
+  if (ssIsLoading || nsIsLoading || wsIsLoading) return <div>Loading...</div>
 
   return (
     <>
