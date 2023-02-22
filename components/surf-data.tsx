@@ -1,5 +1,5 @@
 import React, {
-  // useEffect
+  useEffect
  } from 'react'
 import useSWR from 'swr'
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -7,6 +7,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
 export default function SurfData() {
+  // put fetch call on front end
+
+  const [surflineData, setSurflineData] = React.useState<any>(null)
+
+  useEffect(() => {
+    const response = fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcb&days=2')
+    .then((res) => res.json())
+    .then((data) => {
+      setSurflineData(data)
+    })
+  },[])
+
+  console.log({surflineData})
 
   const {
     data: ssData,
@@ -31,6 +44,7 @@ export default function SurfData() {
       surfbot
       {ssData && <SurfStuff subRegionName={'south shore'} data={ssData}/>}
       {/* {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>} */}
+      {surflineData && <SurfStuff subRegionName={'new'} data={surflineData}/>}
       {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>}
     </>
   )
