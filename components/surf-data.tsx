@@ -4,46 +4,36 @@ import React, {
 import useSWR from 'swr'
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-// const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
+const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
+
+export default function SurfData() {
 
 
 
-export default function SurfData({data}: any) {
+  const {
+    data: ssData,
+    error: ssError,
+    isLoading: ssIsLoading,
+  } = useSWR('/api/south-shore', fetcher)
 
-  // const [ssData, setSsData] = React.useState(null)
+  const {
+    data: nsData,
+    error: nsError,
+    isLoading: nsIsLoading,
+   } = useSWR('/api/north-shore', fetcher)
 
-
-  // const {
-  //   data: ssData,
-  //   error: ssError,
-  //   isLoading: ssIsLoading,
-  // } = useSWR('/api/south-shore', fetcher)
-
-  // const {
-  //   data: nsData,
-  //   error: nsError,
-  //   isLoading: nsIsLoading,
-  //  } = useSWR('/api/north-shore', fetcher)
-
-  //  const {
-  //   data: wsData,
-  //   error: wsError,
-  //   isLoading: wsIsLoading
-  //  } = useSWR('api/west-side', fetcher)
-
-  // useEffect(() => {
-  //   fetch('/api/south-shore')
-  //     .then(res => res.json())
-  //     .then(data => setSsData(data))
-  // })
-
+   const {
+    data: wsData,
+    error: wsError,
+    isLoading: wsIsLoading
+   } = useSWR('api/west-side', fetcher)
 
   return (
     <>
       surfbot
-      {data && <SurfStuff subRegionName={'south shore'} data={data}/>}
-      {/* {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>}
-      {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>} */}
+      {ssData && <SurfStuff subRegionName={'south shore'} data={ssData}/>}
+      {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>}
+      {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>}
     </>
   )
 }
