@@ -26,6 +26,12 @@ export default function SurfData() {
   isLoading: wsIsLoading
   } = useSWR('api/west-side', fetcher)
 
+  const {
+    data: moonPhaseData,
+    error: moonPhaseError,
+    isLoading: moonPhaseIsLoading,
+  } = useSWR('api/moon', fetcher)
+
   function switchOpacity() {
     if (opacity === 1) {
       setOpacity(0)
@@ -63,6 +69,17 @@ export default function SurfData() {
         }}
         onClick={() => switchOpacity()}
       />
+      {moonPhaseData >= .75 && moonPhaseData <= .88 ?
+      <div className={'font-mono text-xs pt-2 text-red-500'}>
+        warning
+        <span>
+          {moonPhaseData > .75 && moonPhaseData < .88 ?
+          `-high` : `-low`}
+        </span>
+      </div>
+      :
+      <div className={'font-mono text-xs pt-2 text-green-500 cursor-pointer'}>safe</div>
+      }
       </div>
     </div>
   )
