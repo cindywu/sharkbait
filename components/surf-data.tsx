@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react'
+import React, {
+  // useEffect
+ } from 'react'
 import useSWR from 'swr'
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
+// const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
 
 
-export default function SurfData({json}: any) {
+export default function SurfData({data}: any) {
 
-  const [ssData, setSsData] = React.useState(null)
-  console.log({json})
+  // const [ssData, setSsData] = React.useState(null)
 
 
   // const {
@@ -18,34 +19,31 @@ export default function SurfData({json}: any) {
   //   isLoading: ssIsLoading,
   // } = useSWR('/api/south-shore', fetcher)
 
-  const {
-    data: nsData,
-    error: nsError,
-    isLoading: nsIsLoading,
-   } = useSWR('/api/north-shore', fetcher)
+  // const {
+  //   data: nsData,
+  //   error: nsError,
+  //   isLoading: nsIsLoading,
+  //  } = useSWR('/api/north-shore', fetcher)
 
-   const {
-    data: wsData,
-    error: wsError,
-    isLoading: wsIsLoading
-   } = useSWR('api/west-side', fetcher)
+  //  const {
+  //   data: wsData,
+  //   error: wsError,
+  //   isLoading: wsIsLoading
+  //  } = useSWR('api/west-side', fetcher)
 
-  useEffect(() => {
-    fetch('/api/south-shore')
-      .then(res => res.json())
-      .then(data => setSsData(data))
-  })
+  // useEffect(() => {
+  //   fetch('/api/south-shore')
+  //     .then(res => res.json())
+  //     .then(data => setSsData(data))
+  // })
 
-  if (!ssData) {
-    return <div>loading...</div>
-  }
 
   return (
     <>
       surfbot
-      {ssData && <SurfStuff subRegionName={'south shore'} data={ssData}/>}
-      {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>}
-      {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>}
+      {data && <SurfStuff subRegionName={'south shore'} data={data}/>}
+      {/* {nsData && <SurfStuff subRegionName={'north shore'} data={nsData}/>}
+      {wsData && <SurfStuff subRegionName={'west side'} data={wsData}/>} */}
     </>
   )
 }
@@ -66,12 +64,12 @@ function SurfStuff({subRegionName, data}: any) {
   )
 }
 
-export async function getServerSideProps({_req, res} : {_req: NextApiRequest, res: NextApiResponse}) {
+// export async function getServerSideProps({_req, res} : {_req: NextApiRequest, res: NextApiResponse}) {
 
-  const response = await fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcb&days=2');
+//   const response = await fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcb&days=2');
 
-  const json = await response.json();
-  // res.status(200).json(json);
+//   const json = await response.json();
+//   // res.status(200).json(json);
 
-  return { props: {json}}
-}
+//   return { props: {json}}
+// }
