@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
+export default async(_req: NextApiRequest, res: NextApiResponse) => {
   const response = await fetch('https://services.surfline.com/kbyg/regions/forecasts/conditions?subregionId=58581a836630e24c44878fcc&days=2');
 
   const json = await response.json();
