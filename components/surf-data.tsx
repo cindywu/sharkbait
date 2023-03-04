@@ -8,23 +8,24 @@ const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json())
 
 export default function SurfData() {
   const [opacity, setOpacity] = useState<any>(1)
-  const {
-    data: ssData,
-    error: ssError,
-    isLoading: ssIsLoading,
-  } = useSWR('/api/south-shore', fetcher)
 
   const {
-    data: nsData,
-    error: nsError,
-    isLoading: nsIsLoading,
-   } = useSWR('/api/north-shore', fetcher)
+    data: popsData,
+    error: popsError,
+    isLoading: popsIsLoading
+    } = useSWR('api/pops', fetcher)
 
   const {
-  data: wsData,
-  error: wsError,
-  isLoading: wsIsLoading
-  } = useSWR('api/west-side', fetcher)
+    data: puaenaData,
+    error: puaenaError,
+    isLoading: puaenaIsLoading
+    } = useSWR('api/puaena', fetcher)
+
+  const {
+    data: makahaData,
+    error: makahaError,
+    isLoading: makahaIsLoading
+    } = useSWR('api/makaha', fetcher)
 
   const {
     data: moonPhaseData,
@@ -42,7 +43,6 @@ export default function SurfData() {
 
   return (
     <div className={"pt-8 flex flex-col text-center"}>
-      {/* <div className={"text-4xl font-semibold"}>surfbot</div> */}
       <div className={"p-8"}>
       <Image
         src={pika}
@@ -54,9 +54,9 @@ export default function SurfData() {
         }}
       />
       </div>
-      {ssData && <SurfStuff subRegionName={'pops'} data={ssData}/>}
-      {nsData && <SurfStuff subRegionName={'puaʻena'} data={nsData}/>}
-      {wsData && <SurfStuff subRegionName={'pokaʻi'} data={wsData}/>}
+      {popsData ? <SurfSpot subRegionName={'at pops'} data={popsData}/> : <SurfSpotLoading data={'at pops'}/>}
+      {puaenaData ? <SurfSpot subRegionName={'at puaʻena'} data={puaenaData}/> : <SurfSpotLoading data={'at puaʻena'}/>}
+      {makahaData ? <SurfSpot subRegionName={'at makaha'} data={makahaData}/> : <SurfSpotLoading data={'at makaha'}/>}
       <div className={"p-8"}>
       <Image
         src={cool}
@@ -85,16 +85,27 @@ export default function SurfData() {
   )
 }
 
-function SurfStuff({subRegionName, data}: any) {
+function SurfSpotLoading({data}: {data: string}){
+  return (
+    <div className={"p-4 blur"}>
+      <div className={"text-4xl p-2"}>
+        1-2 ft
+      </div>
+      <div>{data}</div>
+    </div>
+  )
+}
+
+function SurfSpot({subRegionName, data}: any) {
   return (
     <div className={"p-4"}>
       <div className={"text-4xl p-2"}>
-        {data.data.conditions[0].am.minHeight}
+        {data.data.wave[0].surf.min}
         -
-        {data.data.conditions[0].am.maxHeight}
+        {data.data.wave[0].surf.max}
         {` ft`}
       </div>
-      <div className={""}>at {subRegionName}</div>
+      <div>{subRegionName}</div>
     </div>
   )
 }
