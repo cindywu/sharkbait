@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+export const config = {
+  runtime: 'edge',
+}
+
 export default async(_req: NextApiRequest, res: NextApiResponse) => {
   const key = process.env.NEXT_PUBLIC_MOON_API_KEY;
   const today = new Date()
