@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
-    runtime: 'edge',
+    // runtime: 'edge',
   },
 }
 

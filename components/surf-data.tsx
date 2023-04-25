@@ -28,6 +28,12 @@ export default function SurfData() {
     } = useSWR('api/makaha', fetcher)
 
   const {
+    data: flatData,
+    error: flatError,
+    isLoading: flatIsLoading
+    } = useSWR('api/flat', fetcher)
+
+  const {
     data: moonPhaseData,
     error: moonPhaseError,
     isLoading: moonPhaseIsLoading,
@@ -42,7 +48,7 @@ export default function SurfData() {
   }
 
   return (
-    <div className={"pt-8 flex flex-col text-center"}>
+    <div className={"pt-8 flex flex-col text-center items-center"}>
       <div className={"p-8"}>
       <Image
         src={pika}
@@ -54,9 +60,12 @@ export default function SurfData() {
         }}
       />
       </div>
-      {popsData ? <SurfSpot subRegionName={'at pops'} data={popsData}/> : <SurfSpotLoading data={'at pops'}/>}
-      {puaenaData ? <SurfSpot subRegionName={'at puaʻena'} data={puaenaData}/> : <SurfSpotLoading data={'at puaʻena'}/>}
-      {makahaData ? <SurfSpot subRegionName={'at makaha'} data={makahaData}/> : <SurfSpotLoading data={'at makaha'}/>}
+      <div className={'grid grid-cols-2 w-fit'}>
+      {popsData ? <SurfSpot subRegionName={'pops'} data={popsData}/> : <SurfSpotLoading data={'pops'}/>}
+      {puaenaData ? <SurfSpot subRegionName={'puaʻena'} data={puaenaData}/> : <SurfSpotLoading data={'puaʻena'}/>}
+      {makahaData ? <SurfSpot subRegionName={'makaha'} data={makahaData}/> : <SurfSpotLoading data={'makaha'}/>}
+      {flatData ? <SurfSpot subRegionName={'flat'} data={flatData}/> : <SurfSpotLoading data={'flat'}/>}
+      </div>
       <div className={"p-8"}>
       <Image
         src={cool}
@@ -105,7 +114,7 @@ function SurfSpot({subRegionName, data}: any) {
         {data.data.wave[0].surf.max}
         {` ft`}
       </div>
-      <div>{subRegionName}</div>
+      <div className={"text-xs"}>{subRegionName}</div>
     </div>
   )
 }
